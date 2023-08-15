@@ -24,6 +24,8 @@ public class Task {
     @Column
     private boolean completed;
 
+    public Task() {}
+
     public Task(String title, String description, boolean completed) {
         this.title = title;
         this.description = description;

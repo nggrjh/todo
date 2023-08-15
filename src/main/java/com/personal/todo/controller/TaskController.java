@@ -3,6 +3,7 @@ package com.personal.todo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,12 +17,17 @@ import com.personal.todo.service.TaskService;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    @Autowired(required = true)
     private TaskService taskService;
 
+    @Autowired
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     @GetMapping
-    public List<Task> getTasks() {
-        return taskService.getTasks();
+    public ResponseEntity<List<Task>> getTasks() {
+        List<Task> tasks = taskService.getTasks();
+        return ResponseEntity.ok(tasks);
     }
 
     @PostMapping
