@@ -33,129 +33,66 @@ public class TaskServiceTest {
     }
 
     @Test
-    void testCreateTask() {
+    @Execution(ExecutionMode.CONCURRENT)
+    void testCreateTask_shouldReturnEqual() {
+        Task mockTask = new Task("Buy groceries", "3 tomatoes, 2 potatoes", false);
 
-        class Param {
-            Task task;
-
-            public Param(Task task) {
-                this.task = task;
-            }
-        }
-
-        class Expected {
-            Task task;
-
-            public Expected(Task task) {
-                this.task = task;
-            }
-        }
-
-        class ExpectSave {
-            Task task;
-
-            public ExpectSave(Task task) {
-                this.task = task;
-            }
-        }
-
-        class TestCase {
-            private Param param;
-            private Expected expected;
-
-            private ExpectSave expectSave;
-
-            public TestCase(Param param, Expected expected, ExpectSave expectSave) {
-                this.param = param;
-                this.expected = expected;
-                this.expectSave = expectSave;
-            }
-        }
-
-        Map<String, TestCase> testCases = new HashMap<>();
-        testCases.put("shouldReturnEqual",
-                new TestCase(
-                        new Param(new Task("Buy groceries", "3 tomatoes, 2 potatoes", false)),
-                        new Expected(new Task("Buy groceries", "3 tomatoes, 2 potatoes", false)),
-                        new ExpectSave(new Task("Buy groceries", "3 tomatoes, 2 potatoes", false))));
-
-        for (Map.Entry<String, TestCase> entry : testCases.entrySet()) {
-            String name = entry.getKey();
-            TestCase test = entry.getValue();
-
-            when(taskRepository.save(test.param.task)).thenReturn(test.expectSave.task);
-
-            Task result = taskService.createTask(test.param.task);
-            Task expected = test.expected.task;
-
-            assertEquals(expected.getTitle(), result.getTitle(), name);
-            assertEquals(expected.getDescription(), result.getDescription(), name);
-            assertEquals(expected.isCompleted(), result.isCompleted(), name);
-        }
-
+        when(taskRepository.save(mockTask)).thenReturn(mockTask);
+        
+        Task task = taskService.createTask(mockTask);
+        
+        assertEquals("Buy groceries", task.getTitle());
+        assertEquals("3 tomatoes, 2 potatoes", task.getDescription());
+        assertEquals(false, task.isCompleted());
     }
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void testGetTasks() {
+    void testGetTasks_shouldReturn0Task() {
+        List<Task> mockTasks = Arrays.asList();
 
-        class Expected {
-            int size;
-            List<Task> tasks;
+        when(taskRepository.findAll()).thenReturn(mockTasks);
+        
+        List<Task> tasks = taskService.getTasks();
+        assertEquals(0, tasks.size());
+    }
 
-            public Expected(int size, List<Task> tasks) {
-                this.size = size;
-                this.tasks = tasks;
-            }
-        }
+    @Test
+    @Execution(ExecutionMode.CONCURRENT)
+    void testGetTasks_shouldReturn1TaskAndEqual() {
+        List<Task> mockTasks = Arrays.asList(
+            new Task("Buy groceries", "3 tomatoes, 2 potatoes", false)
+        );
 
-        class ExpectFindAll {
-            List<Task> tasks;
+        when(taskRepository.findAll()).thenReturn(mockTasks);
+        
+        List<Task> tasks = taskService.getTasks();
+        assertEquals(1, tasks.size());
+        
+        assertEquals("Buy groceries", tasks.get(0).getTitle());
+        assertEquals("3 tomatoes, 2 potatoes", tasks.get(0).getDescription());
+        assertEquals(false, tasks.get(0).isCompleted());
+    }
 
-            public ExpectFindAll(List<Task> tasks) {
-                this.tasks = tasks;
-            }
-        }
+    @Test
+    @Execution(ExecutionMode.CONCURRENT)
+    void testGetTasks_shouldReturn2TasksAndEqual() {
+        List<Task> mockTasks = Arrays.asList(
+            new Task("Buy groceries", "3 tomatoes, 2 potatoes", false),
+            new Task("Clean up kitchen", "wash dishes", true)
+        );
 
-        class TestCase {
-            private Expected expected;
-            private ExpectFindAll expectFindAll;
+        when(taskRepository.findAll()).thenReturn(mockTasks);
+        
+        List<Task> tasks = taskService.getTasks();
+        assertEquals(2, tasks.size());
+        
+        assertEquals("Buy groceries", tasks.get(0).getTitle());
+        assertEquals("3 tomatoes, 2 potatoes", tasks.get(0).getDescription());
+        assertEquals(false, tasks.get(0).isCompleted());
 
-            public TestCase(Expected expected, ExpectFindAll expectFindAll) {
-                this.expected = expected;
-                this.expectFindAll = expectFindAll;
-
-            }
-        }
-
-        Map<String, TestCase> testCases = new HashMap<>();
-        testCases.put("shouldReturnEmpty",
-                new TestCase(
-                        new Expected(0, Arrays.asList()),
-                        new ExpectFindAll(Arrays.asList())));
-        testCases.put("shouldReturnEqual",
-                new TestCase(
-                        new Expected(1, Arrays.asList(new Task("Buy groceries", "3 tomatoes, 2 potatoes", false))),
-                        new ExpectFindAll(Arrays.asList(new Task("Buy groceries", "3 tomatoes, 2 potatoes", false)))));
-
-        for (Map.Entry<String, TestCase> entry : testCases.entrySet()) {
-            String name = entry.getKey();
-            TestCase test = entry.getValue();
-
-            when(taskRepository.findAll()).thenReturn(test.expectFindAll.tasks);
-
-            List<Task> tasks = taskService.getTasks();
-            assertEquals(test.expected.size, tasks.size(), name);
-
-            for (int i = 0; i < test.expected.tasks.size(); i++) {
-                Task result = tasks.get(i);
-                Task expected = test.expected.tasks.get(i);
-
-                assertEquals(expected.getTitle(), result.getTitle(), name);
-                assertEquals(expected.getDescription(), result.getDescription(), name);
-                assertEquals(expected.isCompleted(), result.isCompleted(), name);
-            }
-        }
-
+        assertEquals("Clean up kitchen", tasks.get(1).getTitle());
+        assertEquals("wash dishes", tasks.get(1).getDescription());
+        assertEquals(true, tasks.get(1).isCompleted());
     }
 }
