@@ -11,8 +11,12 @@ import com.personal.todo.repository.TaskRepository;
 @Service
 public class TaskService {
 
-    @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public List<Task> getTasks() {
         return taskRepository.findAll();

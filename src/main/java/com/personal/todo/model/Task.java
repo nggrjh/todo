@@ -24,6 +24,12 @@ public class Task {
     @Column
     private boolean completed;
 
+    public Task(String title, String description, boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
