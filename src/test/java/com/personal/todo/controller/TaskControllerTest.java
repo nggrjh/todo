@@ -3,7 +3,6 @@ package com.personal.todo.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +32,12 @@ public class TaskControllerTest {
 
     @Test
     void testCreateTask() {
+        Task mockTask = new Task("Buy groceries", "3 tomatoes, 2 potatoes", false);
 
+        when(taskService.createTask(mockTask)).thenReturn(mockTask);
+
+        ResponseEntity<Void> response = taskController.createTask(mockTask);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
