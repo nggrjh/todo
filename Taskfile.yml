@@ -2,7 +2,7 @@ version: "3"
 
 tasks:
   run:
-    - mvn spring-boot:run
+    - ./mvnw spring-boot:run
 
   test:
-    - mvn test
+    - ./mvnw test
