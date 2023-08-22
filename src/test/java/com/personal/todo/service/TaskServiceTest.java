@@ -1,8 +1,5 @@
 package com.personal.todo.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import com.personal.todo.model.Task;
 import com.personal.todo.repository.TaskRepository;
@@ -25,7 +25,7 @@ public class TaskServiceTest {
 
     @BeforeEach
     public void setUp() {
-        taskService = new TaskService(taskRepository);
+        taskService = new TaskServiceImpl(taskRepository);
     }
 
     @Test
