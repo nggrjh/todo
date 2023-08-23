@@ -3,6 +3,7 @@ package com.personal.todo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,13 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createTask(@RequestBody Task task) {
-        taskService.createTask(task);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        Task createdTask = taskService.createTask(task);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.set("Accept", "application/json");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(createdTask);
     }
 
 }
