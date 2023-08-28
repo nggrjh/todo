@@ -1,4 +1,4 @@
-package com.personal.todo.service;
+package todo.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.personal.todo.model.Task;
-import com.personal.todo.repository.TaskRepository;
+import todo.model.Task;
+import todo.repository.TaskRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {

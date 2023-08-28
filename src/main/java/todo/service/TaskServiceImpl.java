@@ -1,12 +1,12 @@
-package com.personal.todo.service;
+package todo.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.personal.todo.model.Task;
-import com.personal.todo.repository.TaskRepository;
+import todo.model.Task;
+import todo.repository.TaskRepository;
 
 @Service
 public class TaskServiceImpl implements TaskService {

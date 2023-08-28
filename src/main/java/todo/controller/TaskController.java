@@ -1,4 +1,4 @@
-package com.personal.todo.controller;
+package todo.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.personal.todo.model.Task;
-import com.personal.todo.service.TaskService;
+import todo.model.Task;
+import todo.service.TaskService;
 
 @RestController
 @RequestMapping("/tasks")

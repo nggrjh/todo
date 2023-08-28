@@ -1,4 +1,4 @@
-package com.personal.todo.model;
+package todo.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

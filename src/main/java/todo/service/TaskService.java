@@ -1,8 +1,8 @@
-package com.personal.todo.service;
+package todo.service;
 
 import java.util.List;
 
-import com.personal.todo.model.Task;
+import todo.model.Task;
 
 public interface TaskService {
     List<Task> getTasks();

@@ -1,6 +1,7 @@
-package com.personal.todo.controller;
+package todo.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -14,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.personal.todo.model.Task;
-import com.personal.todo.service.TaskService;
+import todo.model.Task;
+import todo.service.TaskService;
 
 @ExtendWith(MockitoExtension.class)
 public class TaskControllerTest {
@@ -31,7 +32,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    void testCreateTask() {
+    void testCreateTask_shouldReturn200() {
         Task mockTask = new Task("Buy groceries", "3 tomatoes, 2 potatoes", false);
 
         when(taskService.createTask(mockTask)).thenReturn(mockTask);
@@ -41,7 +42,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    void testGetTasks_shouldReturn200OKAndEqual() {
+    void testGetTasks_shouldReturn200() {
         List<Task> mockTasks = Arrays.asList(
                 new Task("Buy groceries", "3 tomatoes, 2 potatoes", false),
                 new Task("Clean up kitchen", "wash dishes", true));
@@ -53,6 +54,9 @@ public class TaskControllerTest {
 
         List<Task> tasks = response.getBody();
 
+        assertNotNull(tasks);
+        assertEquals(2, tasks.size());
+
         assertEquals("Buy groceries", tasks.get(0).getTitle());
         assertEquals("3 tomatoes, 2 potatoes", tasks.get(0).getDescription());
         assertEquals(false, tasks.get(0).isCompleted());
@@ -60,7 +64,6 @@ public class TaskControllerTest {
         assertEquals("Clean up kitchen", tasks.get(1).getTitle());
         assertEquals("wash dishes", tasks.get(1).getDescription());
         assertEquals(true, tasks.get(1).isCompleted());
-
     }
 
 }
